@@ -70,6 +70,58 @@ void Unit::newTurn(){
 /////////////////////////////////////////////////////////////////////////////////////
 
 
+bool Unit::isDead(){
+	if(hp <= 0){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+void Unit::guard(){
+	guard_on = true;
+}
+
+int Unit::heal(){
+	int heal = rand()%21+10;
+	int hpup = 0;
+	if(hp + heal >= hpmax)
+	{
+	hpup = hpmax - hp;
+	}
+	else 
+	{
+	hpup = heal;
+	}
+	hp = hp + hpup;
+	return hpup;
+	
+}
+
+int Unit::beAttacked(int oppatk){
+	int damage = 0;
+	if(guard_on == true){
+		damage = (oppatk-def)/3;
+	}else{
+		damage = oppatk-def;
+	}
+	hp -= damage;
+	if(hp < 0){
+		hp = 0;
+	}
+	return damage;
+}
+
+int Unit::attack(Unit &target){
+	return target.beAttacked(atk);
+}
+
+
+
+
+
+
+
 
 void drawScene(char p_action,int p,char m_action,int m){
 	cout << "                                                       \n";
@@ -124,3 +176,4 @@ void playerLose(){
 	cout << "*                                                     *\n";
 	cout << "*******************************************************\n";
 };
+
